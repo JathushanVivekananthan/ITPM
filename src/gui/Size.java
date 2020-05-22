@@ -1,5 +1,12 @@
 package gui;
 
+import size.codeLine;
+import java.io.File;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import size.SizeComplexity;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,7 +15,7 @@ package gui;
 
 /**
  *
- * @author Jathushan
+ * @author senthu
  */
 public class Size extends javax.swing.JFrame {
 
@@ -245,7 +252,38 @@ public class Size extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        // TODO add your handling code here:
+        File selectedFile = ChooseFileJava.getFile();
+
+        try {
+            SizeComplexity sizeComplexity = new SizeComplexity();
+            sizeComplexity.doSizeComplexity(selectedFile);
+            
+            DefaultTableModel dm = new DefaultTableModel(0, 0);
+            String header[] = new String[] { "Line NO", "Program statements", "Nkw","Nid", "Nop","Nnv", "Nsl","Cm"};
+            dm.setColumnIdentifiers(header);
+            jTable1.setModel(dm);
+
+            List<codeLine> codeLines = sizeComplexity.getLineList(selectedFile);
+            for (int count = 1; count <= codeLines.size(); count++) {
+                Vector<Object> data = new Vector<Object>();
+                data.add(count);
+                data.add(codeLines.get(count).getLineContent());
+                data.add(sizeComplexity.getNkw());
+                data.add(sizeComplexity.getNid());
+                data.add(sizeComplexity.getNop());
+                data.add(sizeComplexity.getNnv());
+                data.add(sizeComplexity.getNsl());
+                data.add(sizeComplexity.getCs());
+                dm.addRow(data);
+            }
+            jTable1.repaint();
+
+            System.out.println(sizeComplexity.getCs());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }     // TODO add your handling code here:
+                               
+
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed

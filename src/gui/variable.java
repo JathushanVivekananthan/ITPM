@@ -1,5 +1,12 @@
 package gui;
 
+import java.io.File;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import size.codeLine;
+import variable.VariableComplexity;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,7 +15,7 @@ package gui;
 
 /**
  *
- * @author Jathushan
+ * @author senthu
  */
 public class variable extends javax.swing.JFrame {
 
@@ -246,7 +253,35 @@ public class variable extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        // TODO add your handling code here:
+           File selectedFile = ChooseFileJava.getFile();
+
+        try {
+            VariableComplexity variableComplexity = new VariableComplexity();
+            variableComplexity.doVariableComplexity(selectedFile);
+            
+            DefaultTableModel dm = new DefaultTableModel(0, 0);
+            String header[] = new String[] { "Line NO", "Program statements", "Wvs","Npdtv", "Ncptv","Cv"};
+            dm.setColumnIdentifiers(header);
+            jTable1.setModel(dm);
+
+            List<codeLine> codeLines = variableComplexity.getLineList(selectedFile);
+            for (int count = 1; count <= codeLines.size(); count++) {
+                Vector<Object> data = new Vector<Object>();
+                data.add(count);
+                data.add(codeLines.get(count).getLineContent());
+                data.add(variableComplexity.getWvs());
+                data.add(variableComplexity.getNpdtv());
+                data.add(variableComplexity.getNcptv());
+                data.add(variableComplexity.getCv());
+                dm.addRow(data);
+            }
+            jTable1.repaint();
+
+            System.out.println(variableComplexity.getCv());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }     // TODO add you handling code here:
+                                          
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed

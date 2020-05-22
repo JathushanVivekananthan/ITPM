@@ -1,5 +1,12 @@
 package gui;
 
+import java.io.File;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import method.MethodComplexity;
+import size.codeLine;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,7 +15,7 @@ package gui;
 
 /**
  *
- * @author Jathushan
+ * @author senthu
  */
 public class methord extends javax.swing.JFrame {
 
@@ -195,6 +202,11 @@ public class methord extends javax.swing.JFrame {
         });
 
         jButton3.setText("Check");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -300,7 +312,38 @@ public class methord extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
- 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        File selectedFile = ChooseFileJava.getFile();
+
+        try {
+            MethodComplexity methodComplexity = new MethodComplexity();
+            methodComplexity.doMethodComplexity(selectedFile);
+            
+            DefaultTableModel dm = new DefaultTableModel(0, 0);
+            String header[] = new String[] { "Line NO", "Program statements", "Wmrt","Npdtp", "Ncdtp", "Cm"};
+            dm.setColumnIdentifiers(header);
+            jTable2.setModel(dm);
+
+            List<codeLine> codeLines = methodComplexity.getLineList(selectedFile);
+            for (int count = 1; count <= codeLines.size(); count++) {
+                Vector<Object> data = new Vector<Object>();
+                data.add(count);
+                data.add(codeLines.get(count).getLineContent());
+                data.add(methodComplexity.getWmrt());
+                data.add(methodComplexity.getNpdtp());
+                data.add(methodComplexity.getNcdtp());
+                data.add(methodComplexity.getCm());
+                dm.addRow(data);
+            }
+            jTable2.repaint();
+
+            System.out.println(methodComplexity.getCm());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }     // TODO add your handling code here:
+                               
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
