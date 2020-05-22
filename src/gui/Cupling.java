@@ -1,5 +1,7 @@
 package gui;
 
+import coupling.CodeLine;
+import coupling.CouplingComplexity;
 import java.io.File;
 import java.util.List;
 import java.util.Vector;
@@ -304,7 +306,45 @@ public class Cupling extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
-       
+        File selectedFile = ChooseFileJava.getFile();
+
+        try {
+            CouplingComplexity couplingComplexity = new CouplingComplexity();
+            couplingComplexity.doCouplingComplexity(selectedFile);
+            
+            DefaultTableModel dm = new DefaultTableModel(0, 0);
+            String header[] = new String[] { "Line NO", "Program statements", "Nr","Nmcms", "Nmcmd", "Nmcrms","Nmcrmd", "Nrmcrms", "Nrmcrmd","Nrmcms", "Nrmcmd", "Nmrgvs","Nmrgvd", "Nrmrgvs", "getNrmrgvd","Ccp"};
+            dm.setColumnIdentifiers(header);
+            jTable1.setModel(dm);
+
+            List<CodeLine> codeLines = couplingComplexity.getLineList(selectedFile);
+            for (int count = 1; count <= codeLines.size(); count++) {
+                Vector<Object> data = new Vector<Object>();
+                data.add(count);
+                data.add(codeLines.get(count).getLineContent());
+                data.add(couplingComplexity.getNr());
+                data.add(couplingComplexity.getNmcms());
+                data.add(couplingComplexity.getNmcmd());
+                data.add(couplingComplexity.getNmcrms());
+                data.add(couplingComplexity.getNmcrmd());
+                data.add(couplingComplexity.getNrmcrms());
+                data.add(couplingComplexity.getNrmcrmd());
+                data.add(couplingComplexity.getNrmcms());
+                data.add(couplingComplexity.getNrmcmd());
+                data.add(couplingComplexity.getNmrgvs());
+                data.add(couplingComplexity.getNmrgvd());
+                data.add(couplingComplexity.getNrmrgvs());
+                data.add(couplingComplexity.getNrmrgvd());
+                data.add(couplingComplexity.getCcp());
+                dm.addRow(data);
+            }
+            jTable1.repaint();
+
+            System.out.println(couplingComplexity.getCcp());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }//GEN-LAST:event_jButton25ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed

@@ -8,7 +8,7 @@ package gui;
 
 /**
  *
- * @author senthu
+ * @author Jathushan
  */
 public class variable extends javax.swing.JFrame {
 

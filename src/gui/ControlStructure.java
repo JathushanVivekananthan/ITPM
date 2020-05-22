@@ -8,7 +8,7 @@ package gui;
 
 /**
  *
- * @author kajan
+ * @author Jathushan
  */
 public class ControlStructure extends javax.swing.JFrame {
 

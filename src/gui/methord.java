@@ -8,7 +8,7 @@ package gui;
 
 /**
  *
- * @author senthu
+ * @author Jathushan
  */
 public class methord extends javax.swing.JFrame {
 

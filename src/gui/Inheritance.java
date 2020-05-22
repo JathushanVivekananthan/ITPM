@@ -8,7 +8,7 @@ package gui;
 
 /**
  *
- * @author Kasthuri
+ * @author Jathushan
  */
 public class Inheritance extends javax.swing.JFrame {
 
