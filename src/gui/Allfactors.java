@@ -1,5 +1,13 @@
 package gui;
 
+import AllFactors.AllFactorsComplexity;
+import size.SizeComplexity;
+import java.io.File;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import size.codeLine;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -307,6 +315,37 @@ public class Allfactors extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+       File selectedFile = ChooseFileJava.getFile();
+
+        try {
+            AllFactorsComplexity allFactorsComplexity = new AllFactorsComplexity();
+            allFactorsComplexity.doAllFactorsComplexity(selectedFile);
+            
+            DefaultTableModel dm = new DefaultTableModel(0, 0);
+            String header[] = new String[] { "Line NO", "Program statements", "Cs","Cv", "Cm","Ci", "Ccp","Ccs","Tcps"};
+            dm.setColumnIdentifiers(header);
+            jTable1.setModel(dm);
+
+            List<codeLine> codeLines = allFactorsComplexity.getLineList(selectedFile);
+            for (int count = 1; count <= codeLines.size(); count++) {
+                Vector<Object> data = new Vector<Object>();
+                data.add(count);
+                data.add(codeLines.get(count).getLineContent());
+                data.add(allFactorsComplexity.getCs());
+                data.add(allFactorsComplexity.getCv());
+                data.add(allFactorsComplexity.getCm());
+                data.add(allFactorsComplexity.getCi());
+                data.add(allFactorsComplexity.getCcp());
+                data.add(allFactorsComplexity.getCcs());
+                data.add(allFactorsComplexity.getTcps());
+                dm.addRow(data);
+            }
+            jTable1.repaint();
+
+            System.out.println(allFactorsComplexity.getTcps());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }     // TODO add your handling code here:
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton25ActionPerformed
