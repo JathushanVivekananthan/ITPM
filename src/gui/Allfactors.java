@@ -307,6 +307,7 @@ public class Allfactors extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton25ActionPerformed
 
