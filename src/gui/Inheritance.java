@@ -1,5 +1,12 @@
 package gui;
 
+import Inheritance.InheritanceComplexity;
+import Inheritance.codelineI;
+import java.io.File;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -264,6 +271,34 @@ public class Inheritance extends javax.swing.JFrame {
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         // TODO add your handling code here:
+        File selectedFile = ChooseFileJava.getFile();
+
+        try {
+            InheritanceComplexity InheritanceComplexity = new InheritanceComplexity();
+            InheritanceComplexity.doInheritanceComplexity(selectedFile);
+            
+            DefaultTableModel dm = new DefaultTableModel(0, 0);
+            String header[] = new String[] { "Line NO", "Program statements", "Ndi","Nidi", "Ti", "Ci"};
+            dm.setColumnIdentifiers(header);
+            jTable1.setModel(dm);
+
+            List<codelineI> codeLines = InheritanceComplexity.getLineList(selectedFile);
+            for (int count = 1; count <= codeLines.size(); count++) {
+                Vector<Object> data = new Vector<Object>();
+                data.add(count);
+                data.add(codeLines.get(count).getLineContent());
+                data.add(InheritanceComplexity.getNdi());
+                data.add(InheritanceComplexity.getNidi());
+                data.add(InheritanceComplexity.getTi());
+                data.add(InheritanceComplexity.getCi());
+                dm.addRow(data);
+            }
+            jTable1.repaint();
+
+            System.out.println(InheritanceComplexity.getCi());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
